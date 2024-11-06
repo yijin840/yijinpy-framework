@@ -56,5 +56,5 @@ def testSimpleLinerModel():
     x = np.array([1, 2, 3, 4, 5])
     y = np.array([2, 4, 6, 8, 10])
     model = SimpleLinearModel(x, y)
-    model.gradient_descent()
-    model.plot_loss()
+    # model.gradient_descent()
+    # model.plot_loss()
