@@ -11,9 +11,7 @@ class SimpleLinearModel:
 
     def __init__(self, x, y):
         print(f"x: {x}, y: {y}")  # 调试输出
-        # 权重
         self.w = np.random.randn()
-        # 偏执
         self.b = np.random.randn()
         self.x = x
         self.y = y
@@ -23,11 +21,10 @@ class SimpleLinearModel:
         """预测"""
         return self.w * c + self.b
 
-    def mean_squared_error(self, yt, yp):
+    def mean_squared_error(self, yt: np.array, yp: np.array):
         return ((yt - yp) ** 2).mean()
 
     def gradient_descent(self, learning_rate=0.01, epochs=10000):
-        print(f"x: {self.x}")  # 调试输出
         for epoch in range(epochs):
             yp = self.predict(self.x)  # 计算预测值
             loss = self.mean_squared_error(self.y, yp)  # 计算损失
@@ -56,5 +53,5 @@ def testSimpleLinerModel():
     x = np.array([1, 2, 3, 4, 5])
     y = np.array([2, 4, 6, 8, 10])
     model = SimpleLinearModel(x, y)
-    # model.gradient_descent()
-    # model.plot_loss()
+    model.gradient_descent()
+    model.plot_loss()
