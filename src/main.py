@@ -4,6 +4,7 @@
 
 from t_model import TModel
 from numpy_utils import numpy_arr
+from simple_linear_model import testSimpleLinerModel
 
 
 def run():
@@ -16,6 +17,7 @@ def run():
 def test():
     print("test test")
     numpy_arr()
+    testSimpleLinerModel()
 
 
 if __name__ == "__main__":
