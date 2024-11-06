@@ -4,3 +4,8 @@
 
 if __name__ == "__main__":
     print("hello world")
+
+
+def run():
+    """run"""
+    print("hello world")
