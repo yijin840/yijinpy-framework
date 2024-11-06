@@ -10,6 +10,7 @@ class SimpleLinearModel:
     """_summary_"""
 
     def __init__(self, x: np.array, y: np.array):
+        print(f"x: {x}, y: {y}")  # 调试输出
         # 权重
         self.w = np.random.randn()
         # 偏执
