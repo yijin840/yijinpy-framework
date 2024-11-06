@@ -9,3 +9,7 @@ if __name__ == "__main__":
 def run():
     """run"""
     print("hello world")
+
+
+def test():
+    print("test")
