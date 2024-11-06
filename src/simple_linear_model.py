@@ -23,7 +23,7 @@ class SimpleLinearModel:
         """预测"""
         return self.w * c + self.b
 
-    def mean_squared_error(self, yt: np.array, yp: np.array):
+    def mean_squared_error(self, yt, yp):
         return ((yt - yp) ** 2).mean()
 
     def gradient_descent(self, learning_rate=0.01, epochs=10000):
