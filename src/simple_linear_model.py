@@ -27,6 +27,7 @@ class SimpleLinearModel:
         return ((yt - yp) ** 2).mean()
 
     def gradient_descent(self, learning_rate=0.01, epochs=10000):
+        print(f"x: {self.x}")  # 调试输出
         for epoch in range(epochs):
             yp = self.predict(self.x)  # 计算预测值
             loss = self.mean_squared_error(self.y, yp)  # 计算损失
