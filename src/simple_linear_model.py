@@ -18,9 +18,9 @@ class SimpleLinearModel:
         self.y = y
         self.losses = []
 
-    def predict(self, x):
+    def predict(self, c):
         """预测"""
-        return self.w * x + self.b
+        return self.w * c + self.b
 
     def mean_squared_error(self, yt: np.array, yp: np.array):
         return ((yt - yp) ** 2).mean()
