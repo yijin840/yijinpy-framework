@@ -40,13 +40,10 @@ def torch_start():
         total_loss = 0
         for inputs, labels in train_loader:
             inputs, labels = inputs.to(device), labels.to(device)
-
             # 清零梯度
             optimizer.zero_grad()
-
             # 前向传播
             outputs = model(inputs)
-
             # 计算损失
             loss = criterion(outputs, labels)
             total_loss += loss.item()
@@ -65,3 +62,31 @@ def torch_start():
         predictions = model(sample_data)
         predicted_labels = torch.argmax(predictions, dim=1)
         print("Sample predictions:", predicted_labels.cpu().numpy())
+
+
+def loadModel(model_path):
+    pass
+
+
+def loadModelParams(model_params_path):
+    pass
+
+
+def saveModel(model_path):
+    pass
+
+
+def saveModelParams(model_params_path):
+    pass
+
+
+def trainModel():
+    pass
+
+
+def loadDataStore(ds_path):
+    pass
+
+
+def saveDataStore(ds_path):
+    pass
