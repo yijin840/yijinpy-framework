@@ -26,7 +26,7 @@ def test():
 
 def simple_torch_test():
     current_working_dir = os.getcwd()
-    loadDataStore(current_working_dir + "yijinpy-framework/resources/WikiQACorpus/WikiQA-dev.txt")
+    loadDataStore(current_working_dir + "/yijinpy-framework/resources/WikiQACorpus/WikiQA-dev.txt")
 
 
 if __name__ == "__main__":
