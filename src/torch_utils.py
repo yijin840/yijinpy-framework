@@ -66,9 +66,14 @@ class NeuralNetwork(nn.Module):
 
 
 def run():
+    print("start run torch_utils run method.")
     tu = TorchUtils()
     tu.printData()
     model = NeuralNetwork().toDevice()
     print(model)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+    print("loss_fn: ", loss_fn)
+    print("optimizer: ", optimizer)
+
+    print("run method end.")
