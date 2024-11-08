@@ -66,7 +66,7 @@ class NeuralNetwork(nn.Module):
         return logits
 
     def toDevice(self):
-        return self.to(getDevice)
+        return self.to(getDevice())
 
 
 def train(dataloader, model, loss_fn, optimizer):
@@ -108,6 +108,7 @@ def test(dataloader, model, loss_fn):
 
 
 def run():
+    device = getDevice()
     print("start run torch_utils run method.")
     tu = TorchUtils()
     tu.printData()
