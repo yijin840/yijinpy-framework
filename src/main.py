@@ -4,11 +4,11 @@
 
 import os
 from t_model import TModel
-from numpy_utils import numpy_arr
-from simple_linear_model import testSimpleLinerModel
-from torch_utils import printData
-from simple_torch import loadDataStore
 
+import numpy_utils
+import simple_linear_model
+import torch_utils
+import simple_torch
 
 def run():
     """run"""
@@ -21,12 +21,12 @@ def test():
     print("test test")
     # numpy_arr()
     # testSimpleLinerModel()
-    printData()
+    torch_utils.printData()
 
 
 def simple_torch_test():
     current_working_dir = os.getcwd()
-    loadDataStore(current_working_dir + "/yijinpy-framework/resources/WikiQACorpus/WikiQA-dev.txt")
+    simple_torch.loadDataStore(current_working_dir + "/yijinpy-framework/resources/WikiQACorpus/WikiQA-dev.txt")
 
 
 if __name__ == "__main__":
