@@ -4,7 +4,7 @@
 
 import os
 from t_model import TModel
-from torch_utils import TorchUtils
+from torch_utils import TorchUtils, NeuralNetwork
 import numpy_utils
 import simple_linear_model
 import simple_torch
@@ -23,7 +23,8 @@ def test():
     # testSimpleLinerModel()
     tu = TorchUtils()
     tu.printData()
-
+    model = NeuralNetwork().toDevice()
+    print(model)
 
 def simple_torch_test():
     current_working_dir = os.getcwd()
