@@ -5,7 +5,6 @@ from torchvision import datasets
 from torchvision.transforms import ToTensor
 
 
-
 # Get cpu, gpu or mps device for training.
 def getDevice():
     device = (
@@ -134,9 +133,9 @@ def run():
     print("Saved PyTorch Model State to model.pth")
 
 
-    #加载模型
-    model = NeuralNetwork().to(device)
-    model.load_state_dict(torch.load("model.pth", weights_only=True))
+def loadModelAndEval(model_path):
+    model = NeuralNetwork().to(getDevice())
+    model.load_state_dict(torch.load(model_path, weights_only=True))
 
     # 模型预测
     classes = [
@@ -152,9 +151,11 @@ def run():
         "Ankle boot",
     ]
     model.eval()
+    tu = TorchUtils()
+    tu.printData()
     x, y = tu.test_data[0][0], tu.test_data[0][1]
     with torch.no_grad():
-        x = x.to(device)
+        x = x.to(getDevice())
         pred = model(x)
         predicted, actual = classes[pred[0].argmax(0)], classes[y]
         print(f'Predicted: "{predicted}", Actual: "{actual}"')

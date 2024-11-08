@@ -25,6 +25,10 @@ def test():
     torch_utils.run()
 
 
+def loadModelAndEval(model_path):
+    torch_utils.loadModelAndEval(model_path)
+
+
 def simple_torch_test():
     current_working_dir = os.getcwd()
     simple_torch.loadDataStore(
