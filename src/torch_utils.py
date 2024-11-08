@@ -29,6 +29,7 @@ test_dataloader = DataLoader(test_data, batch_size=batch_size)
 
 
 def printData():
+    print("print data:")
     for X, y in test_dataloader:
         print(f"Shape of X [N, C, H, W]: {X.shape}")
         print(f"Shape of y: {y.shape} {y.dtype}")
