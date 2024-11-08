@@ -6,7 +6,7 @@ import os
 from t_model import TModel
 from numpy_utils import numpy_arr
 from simple_linear_model import testSimpleLinerModel
-from torch_utils import torch_start
+from torch_utils import printData
 from simple_torch import loadDataStore
 
 
@@ -21,7 +21,7 @@ def test():
     print("test test")
     # numpy_arr()
     # testSimpleLinerModel()
-    torch_start()
+    printData()
 
 
 def simple_torch_test():
