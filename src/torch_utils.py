@@ -133,7 +133,7 @@ def run():
     print("Saved PyTorch Model State to model.pth")
 
 
-def loadModelAndEval(model_path):
+def loadModelAndEval(model_path, a, b, c, d):
     model = NeuralNetwork().to(getDevice())
     model.load_state_dict(torch.load(model_path, weights_only=True))
 
@@ -153,7 +153,7 @@ def loadModelAndEval(model_path):
     model.eval()
     tu = TorchUtils()
     tu.printData()
-    x, y = tu.test_data[0][0], tu.test_data[0][1]
+    x, y = tu.test_data[a][b], tu.test_data[c][d]
     with torch.no_grad():
         x = x.to(getDevice())
         print("x: ", x)
