@@ -156,6 +156,8 @@ def loadModelAndEval(model_path):
     x, y = tu.test_data[0][0], tu.test_data[0][1]
     with torch.no_grad():
         x = x.to(getDevice())
+        print("x: ", x)
         pred = model(x)
+        print("pred: ", pred)
         predicted, actual = classes[pred[0].argmax(0)], classes[y]
         print(f'Predicted: "{predicted}", Actual: "{actual}"')
