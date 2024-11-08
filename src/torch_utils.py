@@ -5,6 +5,7 @@ from torchvision import datasets
 from torchvision.transforms import ToTensor
 
 
+
 # Get cpu, gpu or mps device for training.
 def getDevice():
     device = (
@@ -127,3 +128,33 @@ def run():
         train(tu.train_dataloader, model, loss_fn, optimizer)
         test(tu.test_dataloader, model, loss_fn)
     print("Done!")
+
+    # 保存模型
+    torch.save(model.state_dict(), "model.pth")
+    print("Saved PyTorch Model State to model.pth")
+
+
+    #加载模型
+    model = NeuralNetwork().to(device)
+    model.load_state_dict(torch.load("model.pth", weights_only=True))
+
+    # 模型预测
+    classes = [
+        "T-shirt/top",
+        "Trouser",
+        "Pullover",
+        "Dress",
+        "Coat",
+        "Sandal",
+        "Shirt",
+        "Sneaker",
+        "Bag",
+        "Ankle boot",
+    ]
+    model.eval()
+    x, y = tu.test_data[0][0], tu.test_data[0][1]
+    with torch.no_grad():
+        x = x.to(device)
+        pred = model(x)
+        predicted, actual = classes[pred[0].argmax(0)], classes[y]
+        print(f'Predicted: "{predicted}", Actual: "{actual}"')

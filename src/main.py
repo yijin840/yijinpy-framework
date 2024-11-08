@@ -8,6 +8,7 @@ import numpy_utils
 import simple_linear_model
 import simple_torch
 import torch_utils
+import file_utils
 
 
 def run():
@@ -29,6 +30,14 @@ def simple_torch_test():
     simple_torch.loadDataStore(
         current_working_dir + "/yijinpy-framework/resources/WikiQACorpus/WikiQA-dev.txt"
     )
+
+
+def serilableFile(file_path):
+    return file_utils.serilableFile(file_path)
+
+
+def loadSerilableData(data):
+    return file_utils.loadSerilableData(data)
 
 
 if __name__ == "__main__":
