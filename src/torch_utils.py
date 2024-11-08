@@ -12,7 +12,6 @@ def getDevice():
         if torch.cuda.is_available()
         else "mps" if torch.backends.mps.is_available() else "cpu"
     )
-    print(f"Using {device} device")
     return device
 
 
@@ -109,6 +108,8 @@ def test(dataloader, model, loss_fn):
 
 def run():
     device = getDevice()
+    print(f"Using {device} device")
+
     print("start run torch_utils run method.")
     tu = TorchUtils()
     tu.printData()
