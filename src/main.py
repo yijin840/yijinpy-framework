@@ -4,10 +4,10 @@
 
 import os
 from t_model import TModel
-from torch_utils import TorchUtils, NeuralNetwork, run
 import numpy_utils
 import simple_linear_model
 import simple_torch
+import torch_utils
 
 
 def run():
@@ -21,7 +21,8 @@ def test():
     print("test test")
     # numpy_arr()
     # testSimpleLinerModel()
-    run()
+    torch_utils.run()
+
 
 def simple_torch_test():
     current_working_dir = os.getcwd()
