@@ -25,8 +25,8 @@ def test():
     torch_utils.run()
 
 
-def loadModelAndEval(model_path):
-    torch_utils.loadModelAndEval(model_path)
+def loadModelAndEval(model_path, a, b, c, d):
+    torch_utils.loadModelAndEval(model_path, a, b, c, d)
 
 
 def simple_torch_test():
