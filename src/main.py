@@ -21,7 +21,8 @@ def test():
     print("test test")
     # numpy_arr()
     # testSimpleLinerModel()
-    TorchUtils.printData()
+    tu = TorchUtils()
+    tu.printData()
 
 
 def simple_torch_test():

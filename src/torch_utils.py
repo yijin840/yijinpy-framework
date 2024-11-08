@@ -28,7 +28,6 @@ class TorchUtils:
         )
         self.test_dataloader = DataLoader(self.test_data, batch_size=self.batch_size)
 
-    @staticmethod
     def printData(self):
         print("print data:")
         for X, y in self.test_dataloader:
