@@ -62,4 +62,13 @@ class NeuralNetwork(nn.Module):
             else "mps" if torch.backends.mps.is_available() else "cpu"
         )
         print(f"Using {device} device")
-        self.to(device)
+        return self.to(device)
+
+
+def run():
+    tu = TorchUtils()
+    tu.printData()
+    model = NeuralNetwork().toDevice()
+    print(model)
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
