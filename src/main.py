@@ -8,6 +8,7 @@ import test.simple_linear_model as simple_linear_model
 import simple_torch
 import test.torch_test as torch_test
 import file_utils
+from yijin_model import YijinTranslateModel
 
 
 def test():
@@ -36,6 +37,10 @@ def load_serilable_data(data):
     return file_utils.load_serilable_data(data)
 
 
+def yijin_model_test():
+    ytlm = YijinTranslateModel()
+    ytlm.train()
+
+
 if __name__ == "__main__":
     print("hello world")
-    test()

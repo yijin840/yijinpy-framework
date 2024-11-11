@@ -1,28 +1,43 @@
+import yijin_neural_network
+
+
 class YijinTranslateModel:
 
-    def __init__(self, model_path):
-        if model_path == None:
-            self.model_path = self.create_model()
-        # 模型路径
-        self.model_path = model_path
+    def __init__(self):
+        print("yijin translate model init.")
         pass
 
+    ## 数据预处理
+    def pre_process_data(self):
+        pass
+
+    ## 构建词汇表
+    def build_vocabulary(self):
+        pass
+
+    ## 数据加载
     def load_data_store(self):
-
         pass
 
+    ## 训练
     def train(self):
         pass
 
+    ##保存数据
     def save_data_store(self):
         pass
 
-    def translate(self, text):
-        print(f"text: {text}")
+    ## 创建数据
+    def create_data_store(self):
         pass
 
-    def create_date_store(self):
+    ## 创建模型
+    def create_model(self):
         pass
 
-    def create_model(self) -> str:
-        return ""
+    ## 加载模型
+    def load_model(self):
+        pass
+
+    ## 导入模型
+    
