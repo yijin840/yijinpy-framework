@@ -3,19 +3,9 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
+from device import get_device
 
-
-# Get cpu, gpu or mps device for training.
-def getDevice():
-    device = (
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps" if torch.backends.mps.is_available() else "cpu"
-    )
-    return device
-
-
-class TorchUtils:
+class TorchTest:
     def __init__(self):
         # Download training data from open datasets.
         self.training_data = datasets.FashionMNIST(
@@ -38,7 +28,7 @@ class TorchUtils:
         )
         self.test_dataloader = DataLoader(self.test_data, batch_size=self.batch_size)
 
-    def printData(self):
+    def print_data(self):
         print("print data:")
         for X, y in self.test_dataloader:
             print(f"Shape of X [N, C, H, W]: {X.shape}")
@@ -64,15 +54,15 @@ class NeuralNetwork(nn.Module):
         logits = self.linear_relu_stack(x)
         return logits
 
-    def toDevice(self):
-        return self.to(getDevice())
+    def to_device(self):
+        return self.to(get_device())
 
 
 def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
     for batch, (X, y) in enumerate(dataloader):
-        X, y = X.to(getDevice()), y.to(getDevice())
+        X, y = X.to(get_device()), y.to(get_device())
 
         # Compute prediction error
         pred = model(X)
@@ -95,7 +85,7 @@ def test(dataloader, model, loss_fn):
     test_loss, correct = 0, 0
     with torch.no_grad():
         for X, y in dataloader:
-            X, y = X.to(getDevice()), y.to(getDevice())
+            X, y = X.to(get_device()), y.to(get_device())
             pred = model(X)
             test_loss += loss_fn(pred, y).item()
             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
@@ -107,13 +97,13 @@ def test(dataloader, model, loss_fn):
 
 
 def run():
-    device = getDevice()
+    device = get_device()
     print(f"Using {device} device")
 
     print("start run torch_utils run method.")
-    tu = TorchUtils()
-    tu.printData()
-    model = NeuralNetwork().toDevice()
+    tu = TorchTest()
+    tu.print_data()
+    model = NeuralNetwork().to_device()
     print(model)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
@@ -133,8 +123,8 @@ def run():
     print("Saved PyTorch Model State to model.pth")
 
 
-def loadModelAndEval(model_path, a, b, c, d):
-    model = NeuralNetwork().to(getDevice())
+def load_model_and_eval(model_path, a, b, c, d):
+    model = NeuralNetwork().to(get_device())
     model.load_state_dict(torch.load(model_path, weights_only=True))
 
     # 模型预测
@@ -151,11 +141,11 @@ def loadModelAndEval(model_path, a, b, c, d):
         "Ankle boot",
     ]
     model.eval()
-    tu = TorchUtils()
-    tu.printData()
+    tu = TorchTest()
+    tu.print_data()
     x, y = tu.test_data[a][b], tu.test_data[c][d]
     with torch.no_grad():
-        x = x.to(getDevice())
+        x = x.to(get_device())
         print("x: ", x)
         pred = model(x)
         print("pred: ", pred)

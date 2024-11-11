@@ -3,48 +3,39 @@
 """main func"""
 
 import os
-from t_model import TModel
-import numpy_utils
-import simple_linear_model
+import test.numpy_utils as numpy_utils
+import test.simple_linear_model as simple_linear_model
 import simple_torch
-import torch_utils
+import test.torch_test as torch_test
 import file_utils
-
-
-def run():
-    """run"""
-    print("hello world")
-    TModel.load()
-    TModel.train()
 
 
 def test():
     print("test test")
     # numpy_arr()
     # testSimpleLinerModel()
-    torch_utils.run()
+    torch_test.run()
 
 
-def loadModelAndEval(model_path, a, b, c, d):
-    torch_utils.loadModelAndEval(model_path, a, b, c, d)
+def load_model_and_eval(model_path, a, b, c, d):
+    torch_test.load_model_and_eval(model_path, a, b, c, d)
 
 
 def simple_torch_test():
     current_working_dir = os.getcwd()
-    simple_torch.loadDataStore(
+    simple_torch.load_data_store(
         current_working_dir + "/yijinpy-framework/resources/WikiQACorpus/WikiQA-dev.txt"
     )
 
 
-def serilableFile(file_path):
-    return file_utils.serilableFile(file_path)
+def serilable_file(file_path):
+    return file_utils.serilable_file(file_path)
 
 
-def loadSerilableData(data):
-    return file_utils.loadSerilableData(data)
+def load_serilable_data(data):
+    return file_utils.load_serilable_data(data)
 
 
 if __name__ == "__main__":
     print("hello world")
-    run()
     test()

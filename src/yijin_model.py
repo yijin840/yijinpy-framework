@@ -1,30 +1,28 @@
-class YijinModel:
+class YijinTranslateModel:
 
     def __init__(self, model_path):
         if model_path == None:
-            self.model_path = self.createModel()
+            self.model_path = self.create_model()
         # 模型路径
         self.model_path = model_path
         pass
 
-    def loadDataStore(self):
-        
+    def load_data_store(self):
+
         pass
 
     def train(self):
         pass
 
-    def saveDataStore(self):
+    def save_data_store(self):
         pass
 
     def translate(self, text):
         print(f"text: {text}")
         pass
 
-    def createDateStore(self):
+    def create_date_store(self):
         pass
 
-    def createModel(self) -> str:
+    def create_model(self) -> str:
         return ""
-    
-    

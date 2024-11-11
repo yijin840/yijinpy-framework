@@ -2,7 +2,7 @@ import os
 import sys
 
 
-def loadDataStore(ds_path):
+def load_data_store(ds_path):
     data_lines = []
     print(f"ds_path: {ds_path}")
     with open(ds_path, "r", encoding="utf-8") as f:

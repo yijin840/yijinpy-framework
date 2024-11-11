@@ -48,7 +48,7 @@ class SimpleLinearModel:
         plt.show()
 
 
-def testSimpleLinerModel():
+def test_simple_liner_model():
     print("start testSimpleLinerModel")
     x = np.array([1, 2, 3, 4, 5])
     y = np.array([2, 4, 6, 8, 10])
