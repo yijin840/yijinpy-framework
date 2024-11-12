@@ -78,52 +78,52 @@ class YijinGptModel:
         return tokenizer
 
     def train(self, epochs=3, batch_size=4, learning_rate=5e-5, max_length=512):
-    optimizer = optim.AdamW(self.model.parameters(), lr=learning_rate)
-    for epoch in range(epochs):
-        print(f"Epoch {epoch + 1}/{epochs}")  # 打印当前的 epoch
-        epoch_loss = 0  # 用于记录当前 epoch 的总损失
+        optimizer = optim.AdamW(self.model.parameters(), lr=learning_rate)
+        for epoch in range(epochs):
+            print(f"Epoch {epoch + 1}/{epochs}")  # 打印当前的 epoch
+            epoch_loss = 0  # 用于记录当前 epoch 的总损失
 
-        # 加载训练数据
-        inputs_data = self.data_store["train"]["dialog"]  # 保留原始数据
+            # 加载训练数据
+            inputs_data = self.data_store["train"]["dialog"]  # 保留原始数据
 
-        for i in range(0, len(inputs_data), batch_size):
-            batch = [" ".join(dialog) for dialog in inputs_data[i : i + batch_size]]
-            print(f"Batch: {batch}")  # 打印 batch 确认格式
-            
-            # 将输入转换为模型可处理的格式
-            tokenized_inputs = self.tokenizer(
-                batch,
-                return_tensors="pt",
-                padding=True,
-                truncation=True,
-                max_length=max_length,  # 设置最大长度
-                is_split_into_words=False,
-            )
-            print(f"Tokenized Inputs: {tokenized_inputs}")  # 打印 tokenized_inputs 查看返回值的结构
-            tokenized_inputs = {
-                key: value.to(self.device)
-                for key, value in tokenized_inputs.items()
-            }
+            for i in range(0, len(inputs_data), batch_size):
+                batch = [" ".join(dialog) for dialog in inputs_data[i : i + batch_size]]
+                print(f"Batch: {batch}")  # 打印 batch 确认格式
+                
+                # 将输入转换为模型可处理的格式
+                tokenized_inputs = self.tokenizer(
+                    batch,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=max_length,  # 设置最大长度
+                    is_split_into_words=False,
+                )
+                print(f"Tokenized Inputs: {tokenized_inputs}")  # 打印 tokenized_inputs 查看返回值的结构
+                tokenized_inputs = {
+                    key: value.to(self.device)
+                    for key, value in tokenized_inputs.items()
+                }
 
-            # 检查是否有超出词汇表范围的 token
-            input_ids = tokenized_inputs["input_ids"]
-            if input_ids.max().item() >= self.model.config.vocab_size:
-                print("Warning: Detected out-of-vocabulary token in input_ids")
-                continue  # 跳过这个 batch
+                # 检查是否有超出词汇表范围的 token
+                input_ids = tokenized_inputs["input_ids"]
+                if input_ids.max().item() >= self.model.config.vocab_size:
+                    print("Warning: Detected out-of-vocabulary token in input_ids")
+                    continue  # 跳过这个 batch
 
-            optimizer.zero_grad()
-            # 直接传递字典，不需要解包
-            outputs = self.model(
-                **tokenized_inputs, labels=tokenized_inputs["input_ids"]
-            )
-            loss = outputs.loss
-            loss.backward()
-            optimizer.step()
-            epoch_loss += loss.item()  # 累加当前 batch 的损失
+                optimizer.zero_grad()
+                # 直接传递字典，不需要解包
+                outputs = self.model(
+                    **tokenized_inputs, labels=tokenized_inputs["input_ids"]
+                )
+                loss = outputs.loss
+                loss.backward()
+                optimizer.step()
+                epoch_loss += loss.item()  # 累加当前 batch 的损失
 
-        # 打印每个 epoch 的平均损失
-        print(f"Epoch {epoch + 1} Loss: {epoch_loss / len(inputs_data)}")
-        self.model.train()
+            # 打印每个 epoch 的平均损失
+            print(f"Epoch {epoch + 1} Loss: {epoch_loss / len(inputs_data)}")
+            self.model.train()
 
 
     # 交互式对话生成

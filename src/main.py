@@ -38,8 +38,12 @@ def load_serilable_data(data):
 
 
 def yijin_model_test():
-    ygm = YijinGptModel()
-        
+    model = YijinGptModel()
+    # model.train()
+    prompt = "你是谁啊?"
+    response = model.generate_response(prompt)
+    print(response)
+    # print("hello world")
 
 
 if __name__ == "__main__":
