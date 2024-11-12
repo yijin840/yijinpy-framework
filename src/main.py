@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """main func"""
+import sys
+import os
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from yijin_model import YijinGptModel
 import file_utils
 import test.torch_test as torch_test
 import simple_torch
 import test.simple_linear_model as simple_linear_model
 import test.numpy_utils as numpy_utils
-import sys
-import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 def test():
