@@ -1,4 +1,7 @@
-import yijin_neural_network
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, AdamW
+from datasets import load_dataset
+import torch.optim as optim
 
 
 class YijinTranslateModel:
@@ -40,4 +43,98 @@ class YijinTranslateModel:
         pass
 
     ## 导入模型
-    
+    def save_model(self):
+        pass
+
+
+## 对话模型 基于GPT-2 训练
+class YijinGptModel:
+    """
+    1. 初始化参数
+    2. 加载模型，如果没有就创建
+    3. 加载数据集，没有就下载
+    4. 训练
+    5. 保存模型 or 训练数据
+    6. 交互
+    """
+
+    def __init__(self, model=None, data_store=None, tokenizer=None):
+        print("init yijin gpt model.")
+        self.model = model or self.create_default_model()
+        self.data_store = data_store or self.load_default_data_store()
+        self.tokenizer = None or self.get_default_tokenizer()
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model.to(self.device)
+
+    def create_default_model(self):
+        return GPT2LMHeadModel.from_pretrained("gpt2")
+
+    def load_default_data_store(self):
+        return load_dataset("daily_dialog")
+
+    def get_default_tokenizer(self):
+        tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+        tokenizer.add_special_tokens({"pad_token": "[PAD]"})
+        return tokenizer
+
+    def train(self, epochs=3, batch_size=4, learning_rate=5e-5):
+        optimizer = optim.AdamW(self.model.parameters(), lr=learning_rate)
+        for epoch in range(epochs):
+            print(f"Epoch {epoch + 1}/{epochs}")  # 打印当前的 epoch
+            epoch_loss = 0  # 用于记录当前 epoch 的总损失
+
+            # 加载训练数据
+            inputs_data = self.data_store["train"]["dialog"]  # 保留原始数据
+
+            for i in range(0, len(inputs_data), batch_size):
+                batch = inputs_data[i : i + batch_size]
+                # 确保 batch 是一个字符串列表
+                print(f"Batch: {batch}")  # 打印 batch 确认格式
+                # 将输入转换为模型可处理的格式
+                tokenized_inputs = self.tokenizer(
+                    batch,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    is_split_into_words=False,
+                )
+                print(
+                    f"Tokenized Inputs: {tokenized_inputs}"
+                )  # 打印 tokenized_inputs 查看返回值的结构
+                tokenized_inputs = {
+                    key: value.to(self.device)
+                    for key, value in tokenized_inputs.items()
+                }
+
+                optimizer.zero_grad()
+                # 直接传递字典，不需要解包
+                outputs = self.model(
+                    **tokenized_inputs, labels=tokenized_inputs["input_ids"]
+                )
+                loss = outputs.loss
+                loss.backward()
+                optimizer.step()
+                epoch_loss += loss.item()  # 累加当前 batch 的损失
+
+            # 打印每个 epoch 的平均损失
+            print(f"Epoch {epoch + 1} Loss: {epoch_loss / len(inputs_data)}")
+            self.model.train()
+
+    # 交互式对话生成
+    def generate_response(self, prompt, max_length=50):
+        # 使用 GPT-2 模型生成对话响应
+        inputs = self.tokenizer(
+            prompt, return_tensors="pt", padding=True, truncation=True
+        )
+        input_ids = inputs["input_ids"].to(self.device)
+        # 生成回复
+        output = self.model.generate(
+            input_ids,
+            max_length=max_length,
+            num_return_sequences=1,
+            no_repeat_ngram_size=2,
+        )
+
+        # 解码并返回生成的响应
+        response = self.tokenizer.decode(output[0], skip_special_tokens=True)
+        return response

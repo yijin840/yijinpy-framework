@@ -8,7 +8,7 @@ import test.simple_linear_model as simple_linear_model
 import simple_torch
 import test.torch_test as torch_test
 import file_utils
-from yijin_model import YijinTranslateModel
+from yijin_model import YijinGptModel
 
 
 def test():
@@ -38,8 +38,8 @@ def load_serilable_data(data):
 
 
 def yijin_model_test():
-    ytlm = YijinTranslateModel()
-    ytlm.train()
+    ygm = YijinGptModel()
+        
 
 
 if __name__ == "__main__":
