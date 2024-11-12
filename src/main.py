@@ -11,8 +11,6 @@ import file_utils
 from yijin_model import YijinGptModel
 import sys
 
-sys.path.append("test")
-
 
 def test():
     print("test test")
