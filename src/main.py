@@ -39,8 +39,8 @@ def load_serilable_data(data):
     return file_utils.load_serilable_data(data)
 
 
-def get_yijin_gpt_model():
-    return YijinGptModel()
+def get_yijin_gpt_model(model_path=None):
+    return YijinGptModel(model_path)
     # # model.train()
     # prompt = "你是谁啊?"
     # response = model.generate_response(prompt)

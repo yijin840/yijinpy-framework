@@ -58,11 +58,13 @@ class YijinGptModel:
     6. 交互
     """
 
-    def __init__(self, model=None, data_store=None, tokenizer=None):
+    def __init__(self, data_store=None):
         print("init yijin gpt model.")
-        self.model = model or self.create_default_model()
-        self.data_store = data_store or self.load_default_data_store()
-        self.tokenizer = None or self.get_default_tokenizer()
+        self.model = self.create_default_model()
+        self.data_store = (
+            self.load_data_store(data_store) or self.load_default_data_store()
+        )
+        self.tokenizer = self.get_default_tokenizer()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
 
@@ -150,6 +152,4 @@ class YijinGptModel:
         torch.save(self.model.state_dict(), model_path)
 
     def load_data_store(self, model_path):
-        self.model = GPT2LMHeadModel.from_pretrained("gpt2")
-        self.model.to(self.device)
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
