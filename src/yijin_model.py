@@ -148,3 +148,8 @@ class YijinGptModel:
 
     def save_data_store(self, model_path):
         torch.save(self.model.state_dict(), model_path)
+
+    def load_data_store(self, model_path):
+        self.model = GPT2LMHeadModel.from_pretrained("gpt2")
+        self.model.to(self.device)
+        self.model.load_state_dict(torch.load(model_path, weights_only=True))
