@@ -1,5 +1,5 @@
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, AdamW
+from transformers import AutoTokenizer, GPT2LMHeadModel, GPT2Tokenizer, AdamW
 from datasets import load_dataset
 import torch.optim as optim
 
@@ -62,7 +62,7 @@ class YijinGptModel:
         print("init yijin gpt model.")
         self.model = self.create_default_model()
         self.data_store = (
-            self.load_data_store(data_store) or self.load_default_data_store()
+            self.load_data_store(data_store) or self.load_default_dataset()
         )
         self.tokenizer = self.get_default_tokenizer()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -71,13 +71,26 @@ class YijinGptModel:
     def create_default_model(self):
         return GPT2LMHeadModel.from_pretrained("gpt2")
 
-    def load_default_data_store(self):
-        return load_dataset("roycehe/tieba")
-        # return load_dataset(
-        # "text",
-        # data_files="https://huggingface.co/datasets/lhoestq/test/resolve/main/some_text.txt",
+    def tokenize_function(self, ds):
+        tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        return tokenizer(
+            ds["text"], padding="max_length", truncation=True, max_length=512
+        )
+
+    def load_default_dataset(self):
+        # dataset = load_dataset("roycehe/tieba")
+        # self.train_dataset = dataset["train"].map(self.tokenize_function, batched=True)
+        # self.validation_dataset = dataset["validation"].map(
+        #     self.tokenize_function, batched=True
         # )
-        # return load_dataset("daily_dialog", trust_remote_code=True)
+        # self.test_dataset = dataset["test"].map(self.tokenize_function, batched=True)
+        # print(dataset)
+        # return dataset
+        # # return load_dataset(
+        # # "text",
+        # # data_files="https://huggingface.co/datasets/lhoestq/test/resolve/main/some_text.txt",
+        # # )
+        return load_dataset("daily_dialog", trust_remote_code=True)
 
     def get_default_tokenizer(self):
         tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
@@ -136,6 +149,8 @@ class YijinGptModel:
 
     # 交互式对话生成
     def generate_response(self, prompt, max_length=50):
+        # 切换到评估模式
+        self.model.eval()
         # 使用 GPT-2 模型生成对话响应
         inputs = self.tokenizer(
             prompt, return_tensors="pt", padding=True, truncation=True
