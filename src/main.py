@@ -8,13 +8,13 @@ abspath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 print(abspath)
 sys.path.append(abspath)
 sys.path.append(abspath + "/src/test")
+import test.torch_test as torch_test
+import test.simple_linear_model as simple_linear_model
+import test.numpy_utils as numpy_utils
 
 from yijin_model import YijinGptModel
 import file_utils
-import test.torch_test as torch_test
 import simple_torch
-import test.simple_linear_model as simple_linear_model
-import test.numpy_utils as numpy_utils
 
 
 def test():
