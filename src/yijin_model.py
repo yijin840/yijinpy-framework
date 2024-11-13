@@ -72,7 +72,12 @@ class YijinGptModel:
         return GPT2LMHeadModel.from_pretrained("gpt2")
 
     def load_default_data_store(self):
-        return load_dataset("daily_dialog", trust_remote_code=True)
+        return load_dataset("roycehe/tieba")
+        # return load_dataset(
+        # "text",
+        # data_files="https://huggingface.co/datasets/lhoestq/test/resolve/main/some_text.txt",
+        # )
+        # return load_dataset("daily_dialog", trust_remote_code=True)
 
     def get_default_tokenizer(self):
         tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
@@ -102,7 +107,7 @@ class YijinGptModel:
                     is_split_into_words=False,
                 )
                 # print(
-                    # f"Tokenized Inputs: {tokenized_inputs}"
+                # f"Tokenized Inputs: {tokenized_inputs}"
                 # )  # 打印 tokenized_inputs 查看返回值的结构
                 tokenized_inputs = {
                     key: value.to(self.device)
