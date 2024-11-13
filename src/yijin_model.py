@@ -70,7 +70,7 @@ class YijinGptModel:
         return GPT2LMHeadModel.from_pretrained("gpt2")
 
     def load_default_data_store(self):
-        return load_dataset("daily_dialog")
+        return load_dataset("daily_dialog", trust_remote_code=True)
 
     def get_default_tokenizer(self):
         tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
@@ -89,7 +89,7 @@ class YijinGptModel:
             for i in range(0, len(inputs_data), batch_size):
                 batch = [" ".join(dialog) for dialog in inputs_data[i : i + batch_size]]
                 print(f"Batch: {batch}")  # 打印 batch 确认格式
-                
+
                 # 将输入转换为模型可处理的格式
                 tokenized_inputs = self.tokenizer(
                     batch,
@@ -99,7 +99,9 @@ class YijinGptModel:
                     max_length=max_length,  # 设置最大长度
                     is_split_into_words=False,
                 )
-                print(f"Tokenized Inputs: {tokenized_inputs}")  # 打印 tokenized_inputs 查看返回值的结构
+                print(
+                    f"Tokenized Inputs: {tokenized_inputs}"
+                )  # 打印 tokenized_inputs 查看返回值的结构
                 tokenized_inputs = {
                     key: value.to(self.device)
                     for key, value in tokenized_inputs.items()
@@ -124,7 +126,6 @@ class YijinGptModel:
             # 打印每个 epoch 的平均损失
             print(f"Epoch {epoch + 1} Loss: {epoch_loss / len(inputs_data)}")
             self.model.train()
-
 
     # 交互式对话生成
     def generate_response(self, prompt, max_length=50):
