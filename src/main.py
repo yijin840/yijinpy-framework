@@ -39,13 +39,13 @@ def load_serilable_data(data):
     return file_utils.load_serilable_data(data)
 
 
-def yijin_model_test():
-    model = YijinGptModel()
-    # model.train()
-    prompt = "你是谁啊?"
-    response = model.generate_response(prompt)
-    print(response)
-    # print("hello world")
+def get_yijin_gpt_model():
+    return YijinGptModel()
+    # # model.train()
+    # prompt = "你是谁啊?"
+    # response = model.generate_response(prompt)
+    # print(response)
+    # # print("hello world")
 
 
 if __name__ == "__main__":
