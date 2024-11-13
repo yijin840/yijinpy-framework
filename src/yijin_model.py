@@ -145,3 +145,6 @@ class YijinGptModel:
         # 解码并返回生成的响应
         response = self.tokenizer.decode(output[0], skip_special_tokens=True)
         return response
+
+    def save_data_store(self, model_path):
+        torch.save(self.model.state_dict(), model_path)
