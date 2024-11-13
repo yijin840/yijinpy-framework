@@ -4,9 +4,9 @@
 import sys
 import os
 
-import test.torch_test as torch_test
-import test.simple_linear_model as simple_linear_model
-import test.numpy_utils as numpy_utils
+import torch_test as torch_test
+import simple_linear_model as simple_linear_model
+import numpy_utils as numpy_utils
 
 from yijin_model import YijinGptModel
 import file_utils
@@ -17,11 +17,11 @@ def test():
     print("test test")
     # numpy_arr()
     # testSimpleLinerModel()
-    torch_test.run()
+    torch_run()
 
 
 def load_model_and_eval(model_path, a, b, c, d):
-    torch_test.load_model_and_eval(model_path, a, b, c, d)
+    torch_load_model_and_eval(model_path, a, b, c, d)
 
 
 def simple_torch_test():
