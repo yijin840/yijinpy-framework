@@ -22,7 +22,7 @@ def tokenize_function(example):
         text.replace("<|im_start|>", "").replace("<|im_end|>", "") for text in example["text"]
     ]
     print(f"清理后的数据: {cleaned_texts[:1]}")  # 打印清理后的第 1 条数据
-    tokens = tokenizer(cleaned_texts, padding="max_length", truncation=True, max_length=1024)
+    tokens = tokenizer(cleaned_texts, padding="max_length", truncation=True, max_length=256)
     print(f"分词结果 (input_ids 前 10 个): {tokens['input_ids'][0][:10]}")  # 打印分词结果
     return tokens
 
@@ -35,7 +35,7 @@ def main():
     # 加载数据集
     dataset = datasets.load_dataset("roycehe/tieba", split="train")
     print(f"加载数据集成功，共有 {len(dataset)} 条数据")
-    dataset = dataset.select(range(1000))  # 截断为前 1000 条
+    dataset = dataset.select(range(100))  # 截断为前 1000 条
     print(f"截断后的数据集条数: {len(dataset)}")
 
     # 数据分词与格式化
@@ -63,22 +63,20 @@ def main():
 
     # 训练
     print("开始训练...")
-    for i, batch in enumerate(tqdm(dataloader, desc="训练进度")):
+    progress_bar = tqdm(total=len(dataloader), desc="训练进度")
+    for i, batch in enumerate(dataloader):
         batch = {k: v.to(device) for k, v in batch.items()}
         input_ids = batch["input_ids"]
         labels = input_ids.clone()
 
-        # 检查分词索引是否越界
         max_index = input_ids.max().item()
-        print(f"批次 {i} 最大索引: {max_index}")
         if max_index >= tokenizer.vocab_size:
-            print("检测到索引越界，进行修正")
+            print(f"检测到索引越界，最大索引: {max_index}，词表大小: {tokenizer.vocab_size}")
             input_ids[input_ids >= tokenizer.vocab_size] = tokenizer.pad_token_id
+            batch['input_ids'] = input_ids
             labels[labels >= tokenizer.vocab_size] = tokenizer.pad_token_id
-            batch["input_ids"] = input_ids
-            batch["labels"] = labels
+            batch['labels'] = labels
 
-        # 前向传播与反向传播
         outputs = model(**batch)
         loss = outputs.loss
         print(f"批次 {i} 损失值: {loss.item()}")
@@ -86,10 +84,13 @@ def main():
         optimizer.step()
         optimizer.zero_grad()
 
-        # 清理显存
+        progress_bar.update(1)
+
         del batch, outputs, loss
-        torch.cuda.empty_cache()
-        break
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+    progress_bar.close()
 
     # 模型评估
     print("切换到评估模式...")
