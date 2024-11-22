@@ -21,4 +21,5 @@ def tokenize_function(example):
     text = example["text"]
     text = text.replace("<|im_start|>", "").replace("<|im_end|>", "")  # 去掉特殊标记
     return tokenizer(text, padding="max_length", truncation=True, max_length=1024)
+
 main()
